@@ -1,0 +1,32 @@
+
+type Task {
+  id: ID! @unique
+  createdAt: DateTime!
+  description: String!
+  done: Boolean
+}
+
+type Card {
+  id: ID! @unique
+  createdAt: DateTime!
+  description: String!
+  title: String
+  tasks: [Task]
+}
+
+type Team {
+  id: ID! @unique
+  name: String
+  members: [Person]
+}
+
+type Person {
+  id: ID! @unique
+  name: String
+}
+
+type Dashboard {
+  id: ID! @unique
+  cards: [Card]
+  date: DateTime!
+}

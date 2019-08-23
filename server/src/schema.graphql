@@ -1,0 +1,9 @@
+# import Card from "./generated/prisma.graphql"
+# import Dashboard from "./generated/prisma.graphql"
+
+
+
+type Query {
+  info: String!
+  getDashboard(id: String): Dashboard
+}
