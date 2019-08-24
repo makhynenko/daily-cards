@@ -1,9 +1,13 @@
 # import Card from "./generated/prisma.graphql"
 # import Dashboard from "./generated/prisma.graphql"
-
-
+# import Person from "./generated/prisma.graphql"
+# import PersonCreateInput from "./generated/prisma.graphql"
 
 type Query {
   info: String!
   getDashboard(id: String): Dashboard
+}
+
+type Mutation {
+  signup(data: PersonCreateInput): Person!
 }

@@ -8,9 +8,9 @@
     "start": "cross-env NODE_ENV=development node server.js",
     "build-prod": "cross-env NODE_ENV=production webpack --config webpack.production.config.js && node server.js",
     "lint": "eslint -c .eslintrc ./src/**/*.js ./src/**/*.jsx",
-    "introspect": "apollo-codegen introspect-schema http://localhost:4000 --output client/types/schema.json",
-    "gen": "apollo-codegen generate client/**/*.gql --schema client/types/schema.json --target typescript --output client/types/schema-types.ts",
-    "types-get": "yarn introspect && yarn gen"
+    "get-schema": "apollo schema:download --endpoint=http://localhost:4000",
+    "codegen": "apollo codegen:generate client/types/api.d.ts --localSchemaFile=schema.json --includes='client/**/*.gql' --target typescript --outputFlat",
+    "types-get": "yarn get-schema & yarn codegen"
   },
   "author": "",
   "license": "ISC",
@@ -38,7 +38,6 @@
     "typescript-fsa-reducers": "^1.2.1"
   },
   "devDependencies": {
-    "apollo-codegen": "^0.20.2",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.1",
