@@ -10,6 +10,11 @@ const resolvers = {
     getDashboard: (root, args, context, info) => {
       return context.prisma.dashboard( { id: args.id }, info);
     }
+  },
+  Mutation: {
+    signup: (root, args, context, info) => {
+      return context.prisma.createPerson(args.data, info);
+    }
   }
 };
 

@@ -1,32 +1,36 @@
 
 type Task {
   id: ID! @unique
-  createdAt: DateTime!
   description: String!
   done: Boolean
 }
 
 type Card {
   id: ID! @unique
-  createdAt: DateTime!
   description: String!
   title: String
   tasks: [Task]
 }
 
-type Team {
+type Project {
   id: ID! @unique
   name: String
   members: [Person]
+  dashboards: [Dashboard]
 }
 
 type Person {
   id: ID! @unique
-  name: String
+  username: String @unique
+  firstName: String
+  lastName: String
+  email: String
+  password: String
 }
 
 type Dashboard {
   id: ID! @unique
   cards: [Card]
   date: DateTime!
+  project: Project
 }

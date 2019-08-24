@@ -6,13 +6,15 @@ import { store } from './config/store';
 import { history } from './config/history';
 
 import Root from './views/root/RootContainer';
+import Signup from './views/signup/SignupContainer';
 
 export default () => (
   <Provider store={store}>
     <Router history={history}>
       <Switch>
         <Route path="/home" component={Root} />
-        <Redirect to="/home" />
+        <Route path="/signup" component={Signup} />
+        <Redirect to="/signup" />
       </Switch>
     </Router>
   </Provider>
