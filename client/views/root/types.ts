@@ -12,6 +12,17 @@ export interface RootDispatchProps {
 
 export interface RootProps extends RootStoreProps, RootDispatchProps {}
 
-export interface AddListProps {
-    onConfirm: (name: string) => void
+export interface RootState {
+  addProjectOpen: boolean;
+}
+// ---------- AddProjectModal ----------
+
+export interface AddProjectModalProps {
+  open: boolean;
+  onConfirm: () => void;
+  onCancel: () => void;
+}
+
+export interface AddProjectModalState {
+  name: string;
 }
