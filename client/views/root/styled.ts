@@ -18,10 +18,13 @@ export const Header = styled.header`
 
 export const Content = styled.div`
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: flex-start;
+    flex-direction: column;
     flex: auto;
     overflow: auto;
 `;
+
+export const Title = styled.div`
+    display: flex;
+    align-items: center;
+    padding: 5px 16px;
+`
