@@ -6,5 +6,7 @@ datamodel: datamodel.graphql
 
 # Specifies language & location for the generated Prisma client
 generate:
+  - generator: javascript-client
+    output: ../src/generated/prisma-client
   - generator: graphql-schema # <-- Add graphql-schema generator
     output: ../src/generated/

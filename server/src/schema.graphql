@@ -2,12 +2,19 @@
 # import Dashboard from "./generated/prisma.graphql"
 # import Person from "./generated/prisma.graphql"
 # import PersonCreateInput from "./generated/prisma.graphql"
+# import Project from "./generated/prisma.graphql"
+# import ProjectCreateInput from "./generated/prisma.graphql"
+# import ProjectWhereUniqueInput from "./generated/prisma.graphql"
+# import ProjectWhereInput from "./generated/prisma.graphql"
 
 type Query {
+  getProjects(where: ProjectWhereInput): [Project]!
   info: String!
   getDashboard(id: String): Dashboard
 }
 
 type Mutation {
   signup(data: PersonCreateInput): Person!
+  createProject(data: ProjectCreateInput!): Project!
+  updateProject(data: ProjectUpdateInput!, where: ProjectWhereUniqueInput!): Project
 }

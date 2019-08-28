@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { RootProps, RootState } from './types';
+import { RootProps, RootState, ConfirmPayload } from './types';
 import { Container, Header, Content, Title } from './styled';
 import { Icon, Header as SURHeader, Card, Button } from 'semantic-ui-react';
 import { AddProjectModal } from './AddProjectModal';
@@ -41,14 +41,15 @@ export default class Root extends React.Component<RootProps, RootState> {
   }
 
   private openAddProject = () => {
-    this.setState({ addProjectOpen: true })
-  }
+    this.setState({ addProjectOpen: true });
+  };
 
-  private addProject = () => {
-    this.setState({ addProjectOpen: false })
+  private addProject = (args: ConfirmPayload) => {
+    this.props.addProject(args);
+    this.setState({ addProjectOpen: false });
   };
 
   private cancelAddProject = () => {
-    this.setState({ addProjectOpen: false })
+    this.setState({ addProjectOpen: false });
   };
 }

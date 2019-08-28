@@ -17,11 +17,11 @@ var models = [
     embedded: false
   },
   {
-    name: "Task",
+    name: "Project",
     embedded: false
   },
   {
-    name: "Team",
+    name: "Task",
     embedded: false
   }
 ];
