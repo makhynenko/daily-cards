@@ -8,6 +8,7 @@
 # import ProjectWhereInput from "./generated/prisma.graphql"
 
 type Query {
+  getProject(where: ProjectWhereUniqueInput!): Project
   getProjects(where: ProjectWhereInput): [Project]!
   info: String!
   getDashboard(id: String): Dashboard

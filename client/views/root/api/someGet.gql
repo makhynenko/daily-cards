@@ -1,5 +1,0 @@
-query SomeGet($id: String!) {
-  getDashboard(id: $id) {
-    id
-  }
-}

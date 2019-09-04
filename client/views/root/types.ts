@@ -1,4 +1,5 @@
 import { actions } from './duck';
+import { RouteComponentProps } from 'react-router';
 
 export interface RootStoreProps {
   data: any[];
@@ -10,7 +11,7 @@ export interface RootDispatchProps {
   addProject: typeof actions.addProject.started;
 }
 
-export interface RootProps extends RootStoreProps, RootDispatchProps {}
+export interface RootProps extends RootStoreProps, RootDispatchProps, RouteComponentProps {}
 
 export interface RootState {
   addProjectOpen: boolean;
@@ -19,7 +20,7 @@ export interface RootState {
 
 export interface AddProjectModalProps {
   open: boolean;
-  onConfirm: (args: ConfirmPayload) => void; 
+  onConfirm: (args: ConfirmPayload) => void;
   onCancel: () => void;
 }
 
