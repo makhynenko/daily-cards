@@ -5,16 +5,16 @@ import { Store } from '../types';
 import { RootStoreProps, RootDispatchProps } from './types';
 
 const mapDispatchToProps: RootDispatchProps = {
-    fetch: actions.fetch.started,
-    addList: actions.addList
+  fetch: actions.fetch.started,
+  addProject: actions.addProject.started,
 };
 
 const mapStateToProps = (state: Store): RootStoreProps => ({
-    data: state.root.data,
-    loading: state.root.loading,
+  data: state.root.data,
+  loading: state.root.loading,
 });
 
 export default connect<RootStoreProps, RootDispatchProps>(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(Root);

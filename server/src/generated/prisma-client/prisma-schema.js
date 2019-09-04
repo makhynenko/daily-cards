@@ -11,11 +11,11 @@ type AggregatePerson {
   count: Int!
 }
 
-type AggregateTask {
+type AggregateProject {
   count: Int!
 }
 
-type AggregateTeam {
+type AggregateTask {
   count: Int!
 }
 
@@ -25,7 +25,6 @@ type BatchPayload {
 
 type Card {
   id: ID!
-  createdAt: DateTime!
   description: String!
   title: String
   tasks(where: TaskWhereInput, orderBy: TaskOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Task!]
@@ -56,19 +55,18 @@ type CardEdge {
 enum CardOrderByInput {
   id_ASC
   id_DESC
-  createdAt_ASC
-  createdAt_DESC
   description_ASC
   description_DESC
   title_ASC
   title_DESC
+  createdAt_ASC
+  createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
 }
 
 type CardPreviousValues {
   id: ID!
-  createdAt: DateTime!
   description: String!
   title: String
 }
@@ -88,14 +86,6 @@ input CardScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  createdAt: DateTime
-  createdAt_not: DateTime
-  createdAt_in: [DateTime!]
-  createdAt_not_in: [DateTime!]
-  createdAt_lt: DateTime
-  createdAt_lte: DateTime
-  createdAt_gt: DateTime
-  createdAt_gte: DateTime
   description: String
   description_not: String
   description_in: [String!]
@@ -211,14 +201,6 @@ input CardWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  createdAt: DateTime
-  createdAt_not: DateTime
-  createdAt_in: [DateTime!]
-  createdAt_not_in: [DateTime!]
-  createdAt_lt: DateTime
-  createdAt_lte: DateTime
-  createdAt_gt: DateTime
-  createdAt_gte: DateTime
   description: String
   description_not: String
   description_in: [String!]
@@ -263,6 +245,7 @@ type Dashboard {
   id: ID!
   cards(where: CardWhereInput, orderBy: CardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Card!]
   date: DateTime!
+  project: Project
 }
 
 type DashboardConnection {
@@ -272,6 +255,17 @@ type DashboardConnection {
 }
 
 input DashboardCreateInput {
+  cards: CardCreateManyInput
+  date: DateTime!
+  project: ProjectCreateOneWithoutDashboardsInput
+}
+
+input DashboardCreateManyWithoutProjectInput {
+  create: [DashboardCreateWithoutProjectInput!]
+  connect: [DashboardWhereUniqueInput!]
+}
+
+input DashboardCreateWithoutProjectInput {
   cards: CardCreateManyInput
   date: DateTime!
 }
@@ -297,6 +291,34 @@ type DashboardPreviousValues {
   date: DateTime!
 }
 
+input DashboardScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  date: DateTime
+  date_not: DateTime
+  date_in: [DateTime!]
+  date_not_in: [DateTime!]
+  date_lt: DateTime
+  date_lte: DateTime
+  date_gt: DateTime
+  date_gte: DateTime
+  AND: [DashboardScalarWhereInput!]
+  OR: [DashboardScalarWhereInput!]
+  NOT: [DashboardScalarWhereInput!]
+}
+
 type DashboardSubscriptionPayload {
   mutation: MutationType!
   node: Dashboard
@@ -318,10 +340,47 @@ input DashboardSubscriptionWhereInput {
 input DashboardUpdateInput {
   cards: CardUpdateManyInput
   date: DateTime
+  project: ProjectUpdateOneWithoutDashboardsInput
+}
+
+input DashboardUpdateManyDataInput {
+  date: DateTime
 }
 
 input DashboardUpdateManyMutationInput {
   date: DateTime
+}
+
+input DashboardUpdateManyWithoutProjectInput {
+  create: [DashboardCreateWithoutProjectInput!]
+  delete: [DashboardWhereUniqueInput!]
+  connect: [DashboardWhereUniqueInput!]
+  disconnect: [DashboardWhereUniqueInput!]
+  update: [DashboardUpdateWithWhereUniqueWithoutProjectInput!]
+  upsert: [DashboardUpsertWithWhereUniqueWithoutProjectInput!]
+  deleteMany: [DashboardScalarWhereInput!]
+  updateMany: [DashboardUpdateManyWithWhereNestedInput!]
+}
+
+input DashboardUpdateManyWithWhereNestedInput {
+  where: DashboardScalarWhereInput!
+  data: DashboardUpdateManyDataInput!
+}
+
+input DashboardUpdateWithoutProjectDataInput {
+  cards: CardUpdateManyInput
+  date: DateTime
+}
+
+input DashboardUpdateWithWhereUniqueWithoutProjectInput {
+  where: DashboardWhereUniqueInput!
+  data: DashboardUpdateWithoutProjectDataInput!
+}
+
+input DashboardUpsertWithWhereUniqueWithoutProjectInput {
+  where: DashboardWhereUniqueInput!
+  update: DashboardUpdateWithoutProjectDataInput!
+  create: DashboardCreateWithoutProjectInput!
 }
 
 input DashboardWhereInput {
@@ -350,6 +409,7 @@ input DashboardWhereInput {
   date_lte: DateTime
   date_gt: DateTime
   date_gte: DateTime
+  project: ProjectWhereInput
   AND: [DashboardWhereInput!]
   OR: [DashboardWhereInput!]
   NOT: [DashboardWhereInput!]
@@ -382,18 +442,18 @@ type Mutation {
   upsertPerson(where: PersonWhereUniqueInput!, create: PersonCreateInput!, update: PersonUpdateInput!): Person!
   deletePerson(where: PersonWhereUniqueInput!): Person
   deleteManyPersons(where: PersonWhereInput): BatchPayload!
+  createProject(data: ProjectCreateInput!): Project!
+  updateProject(data: ProjectUpdateInput!, where: ProjectWhereUniqueInput!): Project
+  updateManyProjects(data: ProjectUpdateManyMutationInput!, where: ProjectWhereInput): BatchPayload!
+  upsertProject(where: ProjectWhereUniqueInput!, create: ProjectCreateInput!, update: ProjectUpdateInput!): Project!
+  deleteProject(where: ProjectWhereUniqueInput!): Project
+  deleteManyProjects(where: ProjectWhereInput): BatchPayload!
   createTask(data: TaskCreateInput!): Task!
   updateTask(data: TaskUpdateInput!, where: TaskWhereUniqueInput!): Task
   updateManyTasks(data: TaskUpdateManyMutationInput!, where: TaskWhereInput): BatchPayload!
   upsertTask(where: TaskWhereUniqueInput!, create: TaskCreateInput!, update: TaskUpdateInput!): Task!
   deleteTask(where: TaskWhereUniqueInput!): Task
   deleteManyTasks(where: TaskWhereInput): BatchPayload!
-  createTeam(data: TeamCreateInput!): Team!
-  updateTeam(data: TeamUpdateInput!, where: TeamWhereUniqueInput!): Team
-  updateManyTeams(data: TeamUpdateManyMutationInput!, where: TeamWhereInput): BatchPayload!
-  upsertTeam(where: TeamWhereUniqueInput!, create: TeamCreateInput!, update: TeamUpdateInput!): Team!
-  deleteTeam(where: TeamWhereUniqueInput!): Team
-  deleteManyTeams(where: TeamWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -736,6 +796,170 @@ input PersonWhereUniqueInput {
   username: String
 }
 
+type Project {
+  id: ID!
+  title: String
+  description: String
+  members(where: PersonWhereInput, orderBy: PersonOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Person!]
+  dashboards(where: DashboardWhereInput, orderBy: DashboardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Dashboard!]
+}
+
+type ProjectConnection {
+  pageInfo: PageInfo!
+  edges: [ProjectEdge]!
+  aggregate: AggregateProject!
+}
+
+input ProjectCreateInput {
+  title: String
+  description: String
+  members: PersonCreateManyInput
+  dashboards: DashboardCreateManyWithoutProjectInput
+}
+
+input ProjectCreateOneWithoutDashboardsInput {
+  create: ProjectCreateWithoutDashboardsInput
+  connect: ProjectWhereUniqueInput
+}
+
+input ProjectCreateWithoutDashboardsInput {
+  title: String
+  description: String
+  members: PersonCreateManyInput
+}
+
+type ProjectEdge {
+  node: Project!
+  cursor: String!
+}
+
+enum ProjectOrderByInput {
+  id_ASC
+  id_DESC
+  title_ASC
+  title_DESC
+  description_ASC
+  description_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type ProjectPreviousValues {
+  id: ID!
+  title: String
+  description: String
+}
+
+type ProjectSubscriptionPayload {
+  mutation: MutationType!
+  node: Project
+  updatedFields: [String!]
+  previousValues: ProjectPreviousValues
+}
+
+input ProjectSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ProjectWhereInput
+  AND: [ProjectSubscriptionWhereInput!]
+  OR: [ProjectSubscriptionWhereInput!]
+  NOT: [ProjectSubscriptionWhereInput!]
+}
+
+input ProjectUpdateInput {
+  title: String
+  description: String
+  members: PersonUpdateManyInput
+  dashboards: DashboardUpdateManyWithoutProjectInput
+}
+
+input ProjectUpdateManyMutationInput {
+  title: String
+  description: String
+}
+
+input ProjectUpdateOneWithoutDashboardsInput {
+  create: ProjectCreateWithoutDashboardsInput
+  update: ProjectUpdateWithoutDashboardsDataInput
+  upsert: ProjectUpsertWithoutDashboardsInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: ProjectWhereUniqueInput
+}
+
+input ProjectUpdateWithoutDashboardsDataInput {
+  title: String
+  description: String
+  members: PersonUpdateManyInput
+}
+
+input ProjectUpsertWithoutDashboardsInput {
+  update: ProjectUpdateWithoutDashboardsDataInput!
+  create: ProjectCreateWithoutDashboardsInput!
+}
+
+input ProjectWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  members_every: PersonWhereInput
+  members_some: PersonWhereInput
+  members_none: PersonWhereInput
+  dashboards_every: DashboardWhereInput
+  dashboards_some: DashboardWhereInput
+  dashboards_none: DashboardWhereInput
+  AND: [ProjectWhereInput!]
+  OR: [ProjectWhereInput!]
+  NOT: [ProjectWhereInput!]
+}
+
+input ProjectWhereUniqueInput {
+  id: ID
+}
+
 type Query {
   card(where: CardWhereUniqueInput!): Card
   cards(where: CardWhereInput, orderBy: CardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Card]!
@@ -746,12 +970,12 @@ type Query {
   person(where: PersonWhereUniqueInput!): Person
   persons(where: PersonWhereInput, orderBy: PersonOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Person]!
   personsConnection(where: PersonWhereInput, orderBy: PersonOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PersonConnection!
+  project(where: ProjectWhereUniqueInput!): Project
+  projects(where: ProjectWhereInput, orderBy: ProjectOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Project]!
+  projectsConnection(where: ProjectWhereInput, orderBy: ProjectOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProjectConnection!
   task(where: TaskWhereUniqueInput!): Task
   tasks(where: TaskWhereInput, orderBy: TaskOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Task]!
   tasksConnection(where: TaskWhereInput, orderBy: TaskOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TaskConnection!
-  team(where: TeamWhereUniqueInput!): Team
-  teams(where: TeamWhereInput, orderBy: TeamOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Team]!
-  teamsConnection(where: TeamWhereInput, orderBy: TeamOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TeamConnection!
   node(id: ID!): Node
 }
 
@@ -759,13 +983,12 @@ type Subscription {
   card(where: CardSubscriptionWhereInput): CardSubscriptionPayload
   dashboard(where: DashboardSubscriptionWhereInput): DashboardSubscriptionPayload
   person(where: PersonSubscriptionWhereInput): PersonSubscriptionPayload
+  project(where: ProjectSubscriptionWhereInput): ProjectSubscriptionPayload
   task(where: TaskSubscriptionWhereInput): TaskSubscriptionPayload
-  team(where: TeamSubscriptionWhereInput): TeamSubscriptionPayload
 }
 
 type Task {
   id: ID!
-  createdAt: DateTime!
   description: String!
   done: Boolean
 }
@@ -794,19 +1017,18 @@ type TaskEdge {
 enum TaskOrderByInput {
   id_ASC
   id_DESC
-  createdAt_ASC
-  createdAt_DESC
   description_ASC
   description_DESC
   done_ASC
   done_DESC
+  createdAt_ASC
+  createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
 }
 
 type TaskPreviousValues {
   id: ID!
-  createdAt: DateTime!
   description: String!
   done: Boolean
 }
@@ -826,14 +1048,6 @@ input TaskScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  createdAt: DateTime
-  createdAt_not: DateTime
-  createdAt_in: [DateTime!]
-  createdAt_not_in: [DateTime!]
-  createdAt_lt: DateTime
-  createdAt_lte: DateTime
-  createdAt_gt: DateTime
-  createdAt_gte: DateTime
   description: String
   description_not: String
   description_in: [String!]
@@ -935,14 +1149,6 @@ input TaskWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  createdAt: DateTime
-  createdAt_not: DateTime
-  createdAt_in: [DateTime!]
-  createdAt_not_in: [DateTime!]
-  createdAt_lt: DateTime
-  createdAt_lte: DateTime
-  createdAt_gt: DateTime
-  createdAt_gte: DateTime
   description: String
   description_not: String
   description_in: [String!]
@@ -965,112 +1171,6 @@ input TaskWhereInput {
 }
 
 input TaskWhereUniqueInput {
-  id: ID
-}
-
-type Team {
-  id: ID!
-  name: String
-  members(where: PersonWhereInput, orderBy: PersonOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Person!]
-}
-
-type TeamConnection {
-  pageInfo: PageInfo!
-  edges: [TeamEdge]!
-  aggregate: AggregateTeam!
-}
-
-input TeamCreateInput {
-  name: String
-  members: PersonCreateManyInput
-}
-
-type TeamEdge {
-  node: Team!
-  cursor: String!
-}
-
-enum TeamOrderByInput {
-  id_ASC
-  id_DESC
-  name_ASC
-  name_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-}
-
-type TeamPreviousValues {
-  id: ID!
-  name: String
-}
-
-type TeamSubscriptionPayload {
-  mutation: MutationType!
-  node: Team
-  updatedFields: [String!]
-  previousValues: TeamPreviousValues
-}
-
-input TeamSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: TeamWhereInput
-  AND: [TeamSubscriptionWhereInput!]
-  OR: [TeamSubscriptionWhereInput!]
-  NOT: [TeamSubscriptionWhereInput!]
-}
-
-input TeamUpdateInput {
-  name: String
-  members: PersonUpdateManyInput
-}
-
-input TeamUpdateManyMutationInput {
-  name: String
-}
-
-input TeamWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  name: String
-  name_not: String
-  name_in: [String!]
-  name_not_in: [String!]
-  name_lt: String
-  name_lte: String
-  name_gt: String
-  name_gte: String
-  name_contains: String
-  name_not_contains: String
-  name_starts_with: String
-  name_not_starts_with: String
-  name_ends_with: String
-  name_not_ends_with: String
-  members_every: PersonWhereInput
-  members_some: PersonWhereInput
-  members_none: PersonWhereInput
-  AND: [TeamWhereInput!]
-  OR: [TeamWhereInput!]
-  NOT: [TeamWhereInput!]
-}
-
-input TeamWhereUniqueInput {
   id: ID
 }
 `

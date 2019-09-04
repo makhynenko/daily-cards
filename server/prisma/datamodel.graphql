@@ -12,12 +12,6 @@ type Card {
   tasks: [Task]
 }
 
-type Project {
-  id: ID! @unique
-  name: String
-  members: [Person]
-  dashboards: [Dashboard]
-}
 
 type Person {
   id: ID! @unique
@@ -33,4 +27,12 @@ type Dashboard {
   cards: [Card]
   date: DateTime!
   project: Project
+}
+
+type Project {
+  id: ID! @unique
+  title: String
+  description: String
+  members: [Person]
+  dashboards: [Dashboard]
 }

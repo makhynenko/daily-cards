@@ -1,0 +1,7 @@
+query GetProjects($where: ProjectWhereInput) {
+  getProjects(where: $where) {
+    id
+    title
+    description
+  }
+}

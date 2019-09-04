@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node ./src/index"
+    "start": "node ./src/index",
+    "deploy": "prisma deploy && prisma generate -e .env"
   },
   "dependencies": {
     "graphql-yoga": "^1.18.2",

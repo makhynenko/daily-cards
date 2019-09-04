@@ -797,7 +797,8 @@ input PersonWhereUniqueInput {
 
 type Project {
   id: ID!
-  name: String
+  title: String
+  description: String
   members(where: PersonWhereInput, orderBy: PersonOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Person!]
   dashboards(where: DashboardWhereInput, orderBy: DashboardOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Dashboard!]
 }
@@ -809,7 +810,8 @@ type ProjectConnection {
 }
 
 input ProjectCreateInput {
-  name: String
+  title: String
+  description: String
   members: PersonCreateManyInput
   dashboards: DashboardCreateManyWithoutProjectInput
 }
@@ -820,7 +822,8 @@ input ProjectCreateOneWithoutDashboardsInput {
 }
 
 input ProjectCreateWithoutDashboardsInput {
-  name: String
+  title: String
+  description: String
   members: PersonCreateManyInput
 }
 
@@ -832,8 +835,10 @@ type ProjectEdge {
 enum ProjectOrderByInput {
   id_ASC
   id_DESC
-  name_ASC
-  name_DESC
+  title_ASC
+  title_DESC
+  description_ASC
+  description_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -842,7 +847,8 @@ enum ProjectOrderByInput {
 
 type ProjectPreviousValues {
   id: ID!
-  name: String
+  title: String
+  description: String
 }
 
 type ProjectSubscriptionPayload {
@@ -864,13 +870,15 @@ input ProjectSubscriptionWhereInput {
 }
 
 input ProjectUpdateInput {
-  name: String
+  title: String
+  description: String
   members: PersonUpdateManyInput
   dashboards: DashboardUpdateManyWithoutProjectInput
 }
 
 input ProjectUpdateManyMutationInput {
-  name: String
+  title: String
+  description: String
 }
 
 input ProjectUpdateOneWithoutDashboardsInput {
@@ -883,7 +891,8 @@ input ProjectUpdateOneWithoutDashboardsInput {
 }
 
 input ProjectUpdateWithoutDashboardsDataInput {
-  name: String
+  title: String
+  description: String
   members: PersonUpdateManyInput
 }
 
@@ -907,20 +916,34 @@ input ProjectWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  name: String
-  name_not: String
-  name_in: [String!]
-  name_not_in: [String!]
-  name_lt: String
-  name_lte: String
-  name_gt: String
-  name_gte: String
-  name_contains: String
-  name_not_contains: String
-  name_starts_with: String
-  name_not_starts_with: String
-  name_ends_with: String
-  name_not_ends_with: String
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
   members_every: PersonWhereInput
   members_some: PersonWhereInput
   members_none: PersonWhereInput
